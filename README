@@ -1,0 +1,106 @@
+I took 16 chord types and found all ways to make them with at least 1
+open string and within the first 3 frets.  These are the chords which
+will generally form barre chords the best.  E.g. since C7 is 0001, you
+can form D7 by adding 2 to everything to get 2223.  This means you
+play fret 2 on the G-string, 2 on the C-string, 2 on the E-string, and
+3 on the A-string.  Use your index finger to cover all the 2s then use
+your middle finger to add the 3 on the A-string.
+
+Chord inversions are ignored in this list.  I.e. in the 0100 voicing
+of A7 the lowest-pitch note is C# not A so this might more properly be
+called A7-first-inversion (or A7/C#).  --Dan
+
+major
+0003: CM
+2220: DM
+0331: EbM
+2010: FM
+2013: FM
+0232: GM
+2100: AM
+
+minor
+0333: Cm
+2210: Dm
+1013: Fm
+2120: F#m
+0231: Gm
+2000: Am
+2003: Am
+
+diminished
+2320: Ebdim
+2020: F#dim
+2023: F#dim
+0131: Gdim
+3101: A#dim
+
+augmented
+1003: Caug
+2110: C#aug
+0332: Ebaug
+
+dominant seventh
+0001: C7
+1202: E7
+0212: G7
+0100: A7
+
+major seventh
+0002: CM7
+1302: EM7
+0222: GM7
+1100: AM7
+3210: BbM7
+
+minor seventh
+1102: C#m7
+0202: Em7
+0211: Gm7
+0000: Am7
+
+diminished seventh
+0101: C#dim7
+
+half-diminished seventh
+0102: C#m7b5
+0201: Em7b5
+0111: Gm7b5
+1101: Am7b5
+
+minor major seventh
+1103: C#mM7
+0302: EmM7
+0221: GmM7
+1000: AmM7
+3110: BbmM7
+
+augmented major seventh
+1002: CaugM7
+1303: EaugM7
+0322: GaugM7
+1110: AaugM7
+3220: BbaugM7
+
+augmented seventh
+1001: Caug7
+1203: Eaug7
+0312: Gaug7
+0110: Aaug7
+
+ninth
+3203: C9
+0310: F9
+1021: Ab9
+
+major ninth
+1031: AbM9
+
+minor ninth
+2032: Am9
+
+dominant seventh sharp ninth (hendrix chord)
+3303: C7#9
+1310: F7#9
+1022: Ab7#9
+

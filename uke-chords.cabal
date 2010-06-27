@@ -1,0 +1,13 @@
+name:           uke-chords
+version:        0.1
+license:        BSD3
+license-file:   LICENSE
+author:         danl@alum.mit.edu
+synopsis:       see source
+build-type:     Simple
+cabal-version:  >= 1.6
+
+executable uke-chords
+  hs-source-dirs: src
+  main-is:        Main.hs
+  build-depends:  base >= 4, containers
