@@ -126,7 +126,8 @@ maxFret :: Int
 maxFret = 3
 
 geetStrs :: [Pitch]
-geetStrs = [(G, 3), (C, 3), (E, 3), (A, 3)]
+geetStrs = [(G, 4), (C, 4), (E, 4), (A, 4)]
+--geetStrs = [(E, 1), (A, 1), (D, 2), (G, 2), (B, 2), (E, 3)]
 
 functorRunSnd :: (Functor f) => (a, f b) -> f (a, b)
 functorRunSnd = uncurry (fmap . (,))
@@ -139,6 +140,7 @@ main :: IO ()
 main = do
   let
     frets = 
+      filter ((<= 3) . length . filter (/= 0)) .
       filter (any (== 0)) . sequence $ replicate (length geetStrs) [0..maxFret]
     fretsToName = catMaybes . map functorRunSnd .  zip frets $ 
       map (chordGetName . map fst . zipWith pitchPlus geetStrs) frets
