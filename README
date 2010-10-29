@@ -1,14 +1,17 @@
-I took 16 chord types and found all ways to make them with at least 1
-open string and within the first 3 frets.  These are the chords which
-will generally form barre chords the best.  E.g. since C7 is 0001, you
-can form D7 by adding 2 to everything to get 2223.  This means you
-play fret 2 on the G-string, 2 on the C-string, 2 on the E-string, and
-3 on the A-string.  Use your index finger to cover all the 2s then use
-your middle finger to add the 3 on the A-string.
+I took 16 chord types and found all 62 ways to make them with at least
+1 open string and within the first 3 frets.  These are the chords
+which will generally form barre chords the best.  E.g. since C7 is
+0001, you can form D7 by adding 2 to everything to get 2223.  This
+means you play fret 2 on the G-string, 2 on the C-string, 2 on the
+E-string, and 3 on the A-string.  Use your index finger to cover all
+the 2s then use your middle finger to add the 3 on the A-string.
 
 Chord inversions are ignored in this list.  I.e. in the 0100 voicing
 of A7 the lowest-pitch note is C# not A so this might more properly be
-called A7-first-inversion (or A7/C#).  --Dan
+called A7-first-inversion (or A7/C#).
+
+The code generating these is at
+http://github.com/dancor/uke-chords
 
 major
 0003: CM
@@ -37,7 +40,7 @@ diminished
 
 augmented
 1003: Caug
-2110: C#aug
+2110: Dbaug
 0332: Ebaug
 
 dominant seventh
@@ -66,7 +69,7 @@ half-diminished seventh
 0102: C#m7b5
 0201: Em7b5
 0111: Gm7b5
-1101: Am7b5
+1101: A#m7b5
 
 minor major seventh
 1103: C#mM7
