@@ -100,7 +100,7 @@ augDomSevChord = [C, E, Gs, bFlat]
 domNinChord = [C, E, bFlat, D]
 majNinChord = [C, E, B, D]
 minNinChord = [C, eFlat, bFlat, D]
-domSevAugNinChord = [C, E, bFlat, Ds]  -- hendrix
+domSevSharpNinChord = [C, E, bFlat, Ds]  -- hendrix
 
 chordSigs :: [([Int], String)]
 chordSigs = map (first pitchClassesToChordSig) [
@@ -119,7 +119,7 @@ chordSigs = map (first pitchClassesToChordSig) [
   (domNinChord, "9"),
   (majNinChord, "M9"),
   (minNinChord, "m9"),
-  (domSevAugNinChord, "7#9")
+  (domSevSharpNinChord, "7#9")
   ]
 
 maxFret :: Int
