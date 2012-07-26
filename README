@@ -36,11 +36,11 @@ diminished
 2020: F#dim
 2023: F#dim
 0131: Gdim
-3101: A#dim
+3101: Bbdim
 
 augmented
 1003: Caug
-2110: Dbaug
+2110: C#aug
 0332: Ebaug
 
 dominant seventh
@@ -66,10 +66,10 @@ diminished seventh
 0101: C#dim7
 
 half-diminished seventh
-0102: C#m7b5
-0201: Em7b5
-0111: Gm7b5
-1101: A#m7b5
+0102: C#m7-5
+0201: Em7-5
+0111: Gm7-5
+1101: Bbm7-5
 
 minor major seventh
 1103: C#mM7
@@ -103,7 +103,6 @@ minor ninth
 2032: Am9
 
 dominant seventh sharp ninth (hendrix chord)
-3303: C7#9
-1310: F7#9
-1022: Ab7#9
-
+3303: C7+9
+1310: F7+9
+1022: Ab7+9

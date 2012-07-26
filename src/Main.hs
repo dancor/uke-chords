@@ -27,99 +27,62 @@
 --   second on a tie, and so on).
 
 import Control.Arrow
-import Control.Monad
-import Data.Function
 import Data.List
 import Data.Maybe
-import Data.Monoid
-import Data.Ord
 import qualified Data.Map as Map
 
-data PitchClass = C | Cs | D | Ds | E | F | Fs | G | Gs | A | As | B
-  deriving (Show, Eq, Ord, Read, Enum, Bounded)
+import ChordQual
+import ChordSig
+import Pitch
+import PitchClass
 
-aFlat = Gs
-bFlat = As
-dFlat = Cs
-eFlat = Ds
-gFlat = Fs
-
-type Pitch = (PitchClass, Int)
-
-octaveInt :: Int
-octaveInt = 1 + fromEnum (maxBound :: PitchClass)
-
-pitchToInt :: Pitch -> Int
-pitchToInt = uncurry (+) . second (octaveInt *) . first fromEnum
-
-swap :: (a, b) -> (b, a)
-swap (a, b) = (b, a)
-
-intToPitch :: Int -> Pitch
-intToPitch = first toEnum . swap . (`divMod` octaveInt)
-
-pitchDiff :: Pitch -> Pitch -> Int
-pitchDiff = (-) `on` pitchToInt
-
-pitchPlus :: Pitch -> Int -> Pitch
-pitchPlus n = intToPitch . (pitchToInt n +)
-
-adjPairs :: [a] -> [(a, a)]
-adjPairs = ap zip tail
-
-onAdjPairs :: (b -> b -> c) -> [b] -> [c]
-onAdjPairs f = map (uncurry f) . adjPairs 
-
-allCyclesForever :: [t] -> [[t]]
-allCyclesForever l = l : allCyclesForever (rest ++ [l0]) where (l0:rest) = l
-
-pitchClassesToChordSig :: [PitchClass] -> [Int]
-pitchClassesToChordSig = bestSig . 
-  onAdjPairs (flip (-)) . octowrap . map fromEnum . map head . group . sort
-  where
-  octowrap :: [Int] -> [Int]
-  octowrap l = l ++ [head l + octaveInt]
-  bestSig :: [Int] -> [Int]
-  bestSig l = maximum . take n $ allCyclesForever l where n = length l
-
+majChord, minChord, dimChord, augChord :: [PitchClass]
 majChord = [C, E, G]
 minChord = [C, eFlat, G]
 dimChord = [C, eFlat, gFlat]
 augChord = [C, E, Gs]
 
+domSevChord, majSevChord, minSevChord, dimSevChord :: [PitchClass]
 domSevChord = [C, E, G, bFlat]
 majSevChord = [C, E, G, B]
 minSevChord = [C, eFlat, G, bFlat]
 dimSevChord = [C, eFlat, gFlat, A]
 
+halfDimSevChord, minMajSevChord, augMajSevChord, augDomSevChord ::
+  [PitchClass]
 halfDimSevChord = [C, eFlat, gFlat, bFlat]
 minMajSevChord = [C, eFlat, G, B]
 augMajSevChord = [C, E, Gs, B]
 augDomSevChord = [C, E, Gs, bFlat]
 
+domNinChord, majNinChord, minNinChord, domSevSharpNinChord ::
+  [PitchClass]
 domNinChord = [C, E, bFlat, D]
 majNinChord = [C, E, B, D]
 minNinChord = [C, eFlat, bFlat, D]
 domSevSharpNinChord = [C, E, bFlat, Ds]  -- hendrix
 
-chordSigs :: [([Int], String)]
-chordSigs = map (first pitchClassesToChordSig) [
-  (majChord, "M"),
-  (minChord, "m"),
-  (dimChord, "dim"),
-  (augChord, "aug"),
-  (domSevChord, "7"),
-  (majSevChord, "M7"),
-  (minSevChord, "m7"),
-  (dimSevChord, "dim7"),
-  (halfDimSevChord, "m7b5"),
-  (minMajSevChord, "mM7"),
-  (augMajSevChord, "augM7"),
-  (augDomSevChord, "aug7"),
-  (domNinChord, "9"),
-  (majNinChord, "M9"),
-  (minNinChord, "m9"),
-  (domSevSharpNinChord, "7#9")
+chordSigs :: [ChordSig]
+chordSigs =
+  map (\ ((sig, rootIntvl), cq) -> ChordSig sig rootIntvl cq) $
+  map (first pitchClassesToInfo)
+  [
+  (majChord, CQM),
+  (minChord, CQm),
+  (dimChord, CQdim),
+  (augChord, CQaug),
+  (domSevChord, CQ7),
+  (majSevChord, CQM7),
+  (minSevChord, CQm7),
+  (dimSevChord, CQdim7),
+  (halfDimSevChord, CQm7b5),
+  (minMajSevChord, CQmM7),
+  (augMajSevChord, CQaugM7),
+  (augDomSevChord, CQaug7),
+  (domNinChord, CQ9),
+  (majNinChord, CQM9),
+  (minNinChord, CQm9),
+  (domSevSharpNinChord, CQ7S9)
   ]
 
 maxFret :: Int
@@ -132,20 +95,60 @@ geetStrs = [(G, 4), (C, 4), (E, 4), (A, 4)]
 functorRunSnd :: (Functor f) => (a, f b) -> f (a, b)
 functorRunSnd = uncurry (fmap . (,))
 
-chordGetName :: [PitchClass] -> Maybe String
-chordGetName = flip Map.lookup (Map.fromList chordSigs) . 
-  pitchClassesToChordSig
+pitchClassesToChordSig :: [PitchClass] -> Maybe ChordSig
+pitchClassesToChordSig c =
+  Map.lookup (fst $ pitchClassesToInfo c)
+  (Map.fromList . map (\ x -> (csSig x, x)) $ chordSigs)
+
+showFrets :: [Int] -> String
+showFrets = concatMap show
+
+myShowLine :: ChordSig -> [Int] -> (PitchClass, String)
+myShowLine setChordSig frets =
+  (pitchClass, showStr)
+  where
+  notesUniq = map head . group . sort $
+    fretsToPitchClasses frets
+  pitchClass = notesUniq !! (rootOffset `mod` length notesUniq)
+  showStr =
+    showFrets frets ++ ": " ++
+    showPitchClass pitchClass ++
+    cqShow (csQual setChordSig)
+  rootOffset = csIntvlOrd setChordSig - fretRootOffset
+  fretInfo = fretsToInfo frets
+  (_, fretRootOffset) = fretInfo
+
+myShowSet :: (ChordSig, [[Int]]) -> [String]
+myShowSet (chordSig, fretss) =
+  map snd . sort $ map (myShowLine chordSig) fretss
+
+fretsToPitchClasses :: [Int] -> [PitchClass]
+fretsToPitchClasses = map fst . zipWith pitchPlus geetStrs
+
+fretsToChordSig :: [Int] -> Maybe ChordSig
+fretsToChordSig = pitchClassesToChordSig . fretsToPitchClasses
+
+fretsToInfo :: [Int] -> ([Int], Int)
+fretsToInfo = pitchClassesToInfo . fretsToPitchClasses
 
 main :: IO ()
 main = do
   let
-    frets = 
-      filter ((<= 3) . length . filter (/= 0)) .
-      filter (any (== 0)) . sequence $ replicate (length geetStrs) [0..maxFret]
-    fretsToName = catMaybes . map functorRunSnd .  zip frets $ 
-      map (chordGetName . map fst . zipWith pitchPlus geetStrs) frets
-    nameToFrets = Map.fromListWith (++) $ map (swap . first (:[])) fretsToName
-    myShow (name, fretss) = map ((++ name) . (++ ": ") . showFrets) fretss
-    showFrets l = concatMap show l
-  putStr . unlines . concat . map (myShow . second sort) . catMaybes $ 
-    map ((\ k -> functorRunSnd (k, Map.lookup k nameToFrets)) . snd) chordSigs
+    goodFretss :: [[Int]]
+    goodFretss =
+      --filter ((<= 4) . length . filter (/= 0)) .
+      filter (any (== 0)) .
+      sequence $ replicate (length geetStrs) [0..maxFret]
+    goodFretChordSigs :: [([Int], ChordSig)]
+    goodFretChordSigs = catMaybes . map functorRunSnd . zip goodFretss $
+      map fretsToChordSig goodFretss
+    goodsByQual =
+      Map.fromListWith (++) $
+      map (\ (frets, chordSig) -> (csQual chordSig, [frets])) goodFretChordSigs
+    thingsToShow = catMaybes $
+      map (\ k -> functorRunSnd (k, Map.lookup (csQual k) goodsByQual))
+      chordSigs
+  putStr . unlines . concat $
+    map (\ set -> "" : cqShowLong (csQual $ fst set) :
+      myShowSet (second sort set))
+    thingsToShow

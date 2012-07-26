@@ -17,7 +17,7 @@ normalizeChord cc c = init . minimum $ zipWith (++) (tails c') (inits c')
   c' = cc - sum c : c
 
 nChords :: Int -> Int -> [Chord]
-nChords cc n = if n > cc then [] else nub . map (normalizeChord cc) $ concat 
+nChords cc n = if n > cc then [] else nub . map (normalizeChord cc) $ concat
   [map (i1:) (cOSNaiveOver cc (cc - i1) (n - 1) i1) | i1 <- [1..div cc n]]
 
 cOSNaiveOver _ _ 1 _ = [[]]
@@ -58,16 +58,16 @@ main = do
     cc = 12
     n = 4
     chordNameMap = M.fromListWith (++) $
-      [(c, []) | c <- nChords cc n] ++ 
+      [(c, []) | c <- nChords cc n] ++
       map (second (:[])) (interestingChords cc n)
     remCr1 s l = if length l <= 1 then l else filter (not . s) l
     removeCrapChords = remCr1 (elem "sus4") . remCr1 (elem "#6")
     chordPlayMap = M.fromListWith (++) . filter ((/= 0) . head . fst) .
-      map (\ o -> (offsetsToChord cc $ zipWith (+) ukeOffsets o, [o])) . 
+      map (\ o -> (offsetsToChord cc $ zipWith (+) ukeOffsets o, [o])) .
       sequence $ replicate (length ukeOffsets) [0..11]
     showPlay = concatMap show
     showChords = show . map concat . removeCrapChords
-  putStrLn . unlines . 
-    map (\ (k, (v1, v2)) -> show k ++ " " ++ showPlay 
+  putStrLn . unlines .
+    map (\ (k, (v1, v2)) -> show k ++ " " ++ showPlay
       (minimumBy (compare `on` maximum) v1) ++ "  " ++ showChords v2) .
     M.toList $ M.intersectionWith (,) chordPlayMap chordNameMap
