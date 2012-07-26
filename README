@@ -62,6 +62,13 @@ minor seventh (4)
 0211: Gm7
 0000: Am7
 
+minor major seventh (5)
+1103: C#mM7
+0302: EmM7
+0221: GmM7
+1000: AmM7
+3110: BbmM7
+
 diminished seventh (1)
 0101: C#dim7
 
@@ -71,12 +78,11 @@ half-diminished seventh (4)
 0111: Gm7-5
 1101: Bbm7-5
 
-minor major seventh (5)
-1103: C#mM7
-0302: EmM7
-0221: GmM7
-1000: AmM7
-3110: BbmM7
+augmented seventh (4)
+1001: Caug7
+1203: Eaug7
+0312: Gaug7
+0110: Aaug7
 
 augmented major seventh (5)
 1002: CaugM7
@@ -84,12 +90,6 @@ augmented major seventh (5)
 0322: GaugM7
 1110: AaugM7
 3220: BbaugM7
-
-augmented seventh (4)
-1001: Caug7
-1203: Eaug7
-0312: Gaug7
-0110: Aaug7
 
 ninth (3)
 3203: C9
