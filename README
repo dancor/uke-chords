@@ -13,7 +13,7 @@ called A7-first-inversion (or A7/C#).
 The code generating these is at
 http://github.com/dancor/uke-chords
 
-major
+major (6+1)
 0003: CM
 2220: DM
 0331: EbM
@@ -22,7 +22,7 @@ major
 0232: GM
 2100: AM
 
-minor
+minor (6+1)
 0333: Cm
 2210: Dm
 1013: Fm
@@ -31,78 +31,78 @@ minor
 2000: Am
 2003: Am
 
-diminished
+diminished (4+1)
 2320: Ebdim
 2020: F#dim
 2023: F#dim
 0131: Gdim
 3101: Bbdim
 
-augmented
+augmented (3)
 1003: Caug
 2110: C#aug
 0332: Ebaug
 
-dominant seventh
+dominant seventh (4)
 0001: C7
 1202: E7
 0212: G7
 0100: A7
 
-major seventh
+major seventh (5)
 0002: CM7
 1302: EM7
 0222: GM7
 1100: AM7
 3210: BbM7
 
-minor seventh
+minor seventh (4)
 1102: C#m7
 0202: Em7
 0211: Gm7
 0000: Am7
 
-diminished seventh
+diminished seventh (1)
 0101: C#dim7
 
-half-diminished seventh
+half-diminished seventh (4)
 0102: C#m7-5
 0201: Em7-5
 0111: Gm7-5
 1101: Bbm7-5
 
-minor major seventh
+minor major seventh (5)
 1103: C#mM7
 0302: EmM7
 0221: GmM7
 1000: AmM7
 3110: BbmM7
 
-augmented major seventh
+augmented major seventh (5)
 1002: CaugM7
 1303: EaugM7
 0322: GaugM7
 1110: AaugM7
 3220: BbaugM7
 
-augmented seventh
+augmented seventh (4)
 1001: Caug7
 1203: Eaug7
 0312: Gaug7
 0110: Aaug7
 
-ninth
+ninth (3)
 3203: C9
 0310: F9
 1021: Ab9
 
-major ninth
+major ninth (1)
 1031: AbM9
 
-minor ninth
+minor ninth (1)
 2032: Am9
 
-dominant seventh sharp ninth (hendrix chord)
+dominant seventh sharp ninth (hendrix chord) (3)
 3303: C7+9
 1310: F7+9
 1022: Ab7+9

@@ -120,7 +120,14 @@ myShowLine setChordSig frets =
 
 myShowSet :: (ChordSig, [[Int]]) -> [String]
 myShowSet (chordSig, fretss) =
-  map snd . sort $ map (myShowLine chordSig) fretss
+  "" : title : map snd set
+  where
+  set = sort $ map (myShowLine chordSig) fretss
+  title = cqShowLong (csQual chordSig) ++ " (" ++ counts ++ ")"
+  counts = show cUniq ++
+    (if cUniq == cTot then "" else "+" ++ show (cTot - cUniq))
+  cUniq = length . nub $ map fst set
+  cTot = length set
 
 fretsToPitchClasses :: [Int] -> [PitchClass]
 fretsToPitchClasses = map fst . zipWith pitchPlus geetStrs
@@ -148,7 +155,4 @@ main = do
     thingsToShow = catMaybes $
       map (\ k -> functorRunSnd (k, Map.lookup (csQual k) goodsByQual))
       chordSigs
-  putStr . unlines . concat $
-    map (\ set -> "" : cqShowLong (csQual $ fst set) :
-      myShowSet (second sort set))
-    thingsToShow
+  putStr . unlines . concat $ map myShowSet thingsToShow
