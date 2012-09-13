@@ -72,19 +72,19 @@ minor major seventh (5)
 diminished seventh (1)
 0101: C#dim7
 
-half-diminished seventh (4)
+half-diminished seventh (4) (just increment any of dim7)
 0102: C#m7-5
 0201: Em7-5
 0111: Gm7-5
 1101: Bbm7-5
 
-augmented seventh (4)
+augmented seventh (4) (just raise 5th of dom7)
 1001: Caug7
 1203: Eaug7
 0312: Gaug7
 0110: Aaug7
 
-augmented major seventh (5)
+augmented major seventh (5) (just raise 5th of M7)
 1002: CaugM7
 1303: EaugM7
 0322: GaugM7
